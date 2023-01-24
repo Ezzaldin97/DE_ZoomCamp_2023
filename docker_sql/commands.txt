@@ -1,0 +1,9 @@
+docker run -it -e POSTGRES_USER="root" -e POSTGRES_PASSWORD="root" -e POSTGRES_DB="ny_taxi" -v /d/data_engineering_zoomcamp/docker_sql/ny_taxi_postgres_data:/var/lib/postgresql/data -p 5432:5432 --network=pg-network --name pgdatabase postgres:13
+
+docker run -it -e PGADMIN_DEFAULT_EMAIL="admin@admin.com" -e PGADMIN_DEFAULT_PASSWORD="root" -p 8000:80 --network=pg-network --name pgadmin dpage/pgadmin4
+
+docker network create pg-network
+
+docker build -t ingest_data:001 .
+
+docker run -it --network=pg-network ingest_data:001
