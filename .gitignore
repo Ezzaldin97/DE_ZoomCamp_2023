@@ -4,3 +4,4 @@ workflow_orchestration/.prefectignore
 workflow_orchestration/homework/flows/__pycache__/el_gcs_bq.cpython-39.pyc
 workflow_orchestration/homework/flows/__pycache__/to_gcs.cpython-39.pyc
 workflow_orchestration/homework/yellow_tripdata_2019-03.parquet
+data_warehouse/flows/__pycache__
