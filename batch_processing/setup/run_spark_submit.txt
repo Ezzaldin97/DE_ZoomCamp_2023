@@ -1,0 +1,69 @@
+## standalone cluster
+https://spark.apache.org/docs/latest/spark-standalone.html#:~:text=1%20Security.%20Security%20in%20Spark%20is%20OFF%20by,you%20should%20create%20a%20file%20called...%20More%20
+
+./bin/spark-submit \
+  --master <master-url> \
+  --deploy-mode <deploy-mode> \
+  --conf <key<=<value> \
+  --driver-memory <value>g \
+  --executor-memory <value>g \
+  --executor-cores <number of cores>  \
+  --jars  <comma separated dependencies>
+  --class <main-class> \
+  <application-jar> \
+  [application-arguments]
+
+spark-submit \
+  --master spark://zoomcamp.europe-west6-a.c.nyc-taxi-pipeline.internal:7077 \
+  local_cluster.py
+
+# submit to dataproc cluster using REST
+{
+  "reference": {
+    "jobId": "job-3908d838",
+    "projectId": "nyc-taxi-pipeline"
+  },
+  "placement": {
+    "clusterName": "zoomcamp-cluster"
+  },
+  "status": {
+    "state": "DONE",
+    "stateStartTime": "2023-03-04T18:50:32.455853Z"
+  },
+  "yarnApplications": [
+    {
+      "name": "test",
+      "state": "FINISHED",
+      "progress": 1,
+      "trackingUrl": "http://zoomcamp-cluster-m:8088/proxy/application_1677954692316_0001/"
+    }
+  ],
+  "statusHistory": [
+    {
+      "state": "PENDING",
+      "stateStartTime": "2023-03-04T18:49:52.487925Z"
+    },
+    {
+      "state": "SETUP_DONE",
+      "stateStartTime": "2023-03-04T18:49:52.532804Z"
+    },
+    {
+      "state": "RUNNING",
+      "details": "Agent reported job success",
+      "stateStartTime": "2023-03-04T18:49:52.889724Z"
+    }
+  ],
+  "driverControlFilesUri": "gs://dataproc-staging-europe-west6-61645669347-luor9beu/google-cloud-dataproc-metainfo/f0925a36-f5b2-4cd3-93f9-11cc48549235/jobs/job-3908d838/",
+  "driverOutputResourceUri": "gs://dataproc-staging-europe-west6-61645669347-luor9beu/google-cloud-dataproc-metainfo/f0925a36-f5b2-4cd3-93f9-11cc48549235/jobs/job-3908d838/driveroutput",
+  "jobUuid": "4d758f66-5c47-425a-b570-04e11f55c3e2",
+  "done": true,
+  "pysparkJob": {
+    "mainPythonFileUri": "gs://dtc_data_lake_nyc-taxi-pipeline/code/dataproc_cluster.py"
+  }
+}
+
+gcloud dataproc jobs submit pyspark \
+    --cluster=zoomcamp-cluster \
+    --region=europe-west6 \
+    --jars=gs://spark-lib/bigquery/spark-bigquery-with-dependencies_2.12-0.23.2.jar \
+    gs://dtc_data_lake_nyc-taxi-pipeline/code/spark_bigquery.py
